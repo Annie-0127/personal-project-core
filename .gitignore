@@ -1,0 +1,12 @@
+.vscode/
+vendor
+debug
+debug.test
+/build
+.vscode
+.DS_Store
+*.iml
+.idea
+.build
+.history
+go.sum
