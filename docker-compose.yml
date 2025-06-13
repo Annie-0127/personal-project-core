@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    container_name: personal-project-core-app
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - ./:/personal-project-core
+    ports:
+      - 8080:9214

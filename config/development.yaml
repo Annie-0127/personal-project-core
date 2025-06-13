@@ -1,0 +1,11 @@
+database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password:
+  db_name:
+
+server:
+  port: 9214
+  locale: "en"
+  timezone: UTC
