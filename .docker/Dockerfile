@@ -1,5 +1,6 @@
 FROM golang:1.23-alpine as builder
 
+ENV GO111MODULE=on
 ENV APP_ENV development
 
 RUN apk add bash ca-certificates curl git gcc g++ libc-dev unzip make nodejs npm

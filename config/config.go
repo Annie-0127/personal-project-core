@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 type Config struct {
@@ -19,6 +20,10 @@ type Config struct {
 	Server struct {
 		Port string `mapstructure:"port"`
 	}
+	JWT struct {
+		Secret    string        `mapstructure:"secret" yaml:"secret"`
+		ExpiredAt time.Duration `mapstructure:"expires_at" yaml:"expires_at"`
+	} `mapstructure:"jwt" yaml:"jwt"`
 }
 
 var config Config

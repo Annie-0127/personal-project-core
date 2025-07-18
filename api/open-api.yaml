@@ -4,9 +4,16 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:8080/api/v1
+  - url: http://localhost:9214/api/v1
     description: Local development server
 
+components:
+  $ref: "./security.yaml#/components"
+
 paths:
-  /login:
+  /auth/login:
     $ref: "./auth/api.yaml#/paths/~1auth~1login"
+  /users:
+    $ref: "./user/api.yaml#/paths/~1users"
+  /users/{id}:
+    $ref: "./user/api.yaml#/paths/~1users~1{id}"

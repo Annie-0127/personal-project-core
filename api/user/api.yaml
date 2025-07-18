@@ -1,0 +1,383 @@
+paths:
+  /users:
+    post:
+      summary: Create new user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      x-permissions:
+        - user.create
+      parameters:
+        - name: X-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-CLIENT-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-LANG
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRequest"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      summary: Get list users
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      x-permissions:
+        - user.list
+      parameters:
+        - name: X-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-CLIENT-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-LANG
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 10
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "-created_at, -updated_at"
+        - name: keyword
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: is_active
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of users with pagination
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/ListResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/{id}:
+    get:
+      summary: Get user detail
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      x-permissions:
+        - user.list
+        - user.detail
+      parameters:
+        - name: X-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-CLIENT-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-LANG
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get user detail successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      summary: Update user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      x-permissions:
+        - user.detail
+        - user.update
+      parameters:
+        - name: X-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-CLIENT-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-LANG
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRequest"
+      responses:
+        "200":
+          description: Update user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      summary: Delete user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      x-permissions:
+        - user.list
+        - user.delete
+      parameters:
+        - name: X-TOKEN
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-CLIENT-ID
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-LANG
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    CreateRequest:
+      type: object
+      required:
+        - name
+        - username
+        - email
+        - password
+        - roles
+        - is_active
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        stores:
+          type: array
+          items:
+            type: string
+        is_active:
+          type: boolean
+        company_id:
+          type: string
+        supplier_id:
+          type: string
+    UpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        is_active:
+          type: boolean
+        stores:
+          type: array
+          items:
+            type: string
+        password:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        supplier_id:
+          type: string
+    CommonResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    ListResponse:
+      type: object
+      required:
+        - page
+        - total
+        - pages
+        - limit
+        - items
+      properties:
+        page:
+          type: integer
+        total:
+          type: integer
+        pages:
+          type: integer
+        limit:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+    DetailResponse:
+      type: object
+      required:
+        - data
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/User"
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - username
+        - email
+        - is_active
+      properties:
+        id:
+          type: string
+        is_active:
+          type: boolean
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        stores:
+          type: array
+          items:
+            type: string
+        company_id:
+          type: string
+        supplier_id:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string

@@ -1,0 +1,81 @@
+paths:
+  /auth/login:
+    post:
+      summary: Login user
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Log in successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      required:
+        - data
+        - message
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+          required:
+            - token
+            - refresh_token
+            - user_id
+            - username
+            - email
+            - name
+            - expired_at
+          properties:
+            token:
+              type: string
+            refresh_token:
+              type: string
+            user_id:
+              type: string
+            username:
+              type: string
+            email:
+              type: string
+            name:
+              type: string
+            expired_at:
+              type: integer
+    ErrorResponse:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: string

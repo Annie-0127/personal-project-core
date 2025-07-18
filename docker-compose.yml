@@ -8,4 +8,4 @@ services:
     volumes:
       - ./:/personal-project-core
     ports:
-      - 8080:9214
+      - 9214:9214
