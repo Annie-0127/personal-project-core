@@ -1,11 +1,15 @@
 database:
-  host: localhost
+  host: host.docker.internal
   port: 5432
   username: postgres
-  password:
-  db_name:
+  password: "123456789"
+  db_name: personal_project
 
 server:
   port: 9214
   locale: "en"
   timezone: UTC
+
+  jwt:
+    expires_at: '168h'
+    secret: NClq816hVmb9PNiXDijUGXpTsto8l6

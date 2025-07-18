@@ -11,6 +11,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("error initializing server: %v", err)
 	}
+	server.AutoMigrate()
 	server.SetupRoutes()
 	server.Run()
 }
